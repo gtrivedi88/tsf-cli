@@ -1,6 +1,6 @@
 module github.com/redhat-appstudio/tsf-cli/e2e
 
-go 1.25
+go 1.25.0
 
 require (
 	github.com/devfile/library/v2 v2.2.1-0.20230418160146-e75481b7eebd
@@ -165,7 +165,7 @@ require (
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.67.5 // indirect
 	github.com/prometheus/procfs v0.19.2 // indirect
-	github.com/prometheus/statsd_exporter v0.28.0 // indirect
+	github.com/prometheus/statsd_exporter v0.29.0 // indirect
 	github.com/redhat-appstudio/jvm-build-service v0.0.0-20240126122210-0e2ee7e2e5b0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect
