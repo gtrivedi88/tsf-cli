@@ -96,8 +96,8 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.1 // indirect
-	github.com/openshift/api v0.0.0-20260320151444-324a1bcb9f55 // indirect
-	github.com/openshift/client-go v0.0.0-20260320040014-4b5fc2cdad98 // indirect
+	github.com/openshift/api v0.0.0-20260326111139-30c2ef7a272e // indirect
+	github.com/openshift/client-go v0.0.0-20260330134249-7e1499aaacd7 // indirect
 	github.com/peterbourgon/diskv v2.0.1+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect

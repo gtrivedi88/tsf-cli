@@ -668,6 +668,9 @@ var schemaYAML = typed.YAMLObject(`types:
       type:
         namedType: com.github.openshift.api.config.v1.APIServerServingCerts
       default: {}
+    - name: tlsAdherence
+      type:
+        scalar: string
     - name: tlsSecurityProfile
       type:
         namedType: com.github.openshift.api.config.v1.TLSSecurityProfile
