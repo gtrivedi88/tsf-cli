@@ -3,7 +3,7 @@ module github.com/redhat-appstudio/tsf-cli/e2e
 go 1.25.0
 
 require (
-	github.com/devfile/library/v2 v2.2.1-0.20230418160146-e75481b7eebd
+	github.com/devfile/library/v2 v2.4.0
 	github.com/google/go-github/v44 v44.1.0
 	github.com/konflux-ci/application-api v0.0.0-20251210122215-555a927cf6d9
 	github.com/konflux-ci/build-service v0.0.0-20240611083846-2dee6cfe6fe4
