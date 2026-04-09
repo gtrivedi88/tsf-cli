@@ -21,7 +21,7 @@ Start the {TSFShortName} installer container using Podman. The installer runs in
 ----
 podman run -it --rm --env-file tsf.env \
   --entrypoint bash -p 8228:8228 --pull always \
-  {TSFInstallerImage} --login
+  quay.io/redhat-ads/tsf-cli:unstable --login
 ----
 +
 This command pulls the latest installer image and opens an interactive shell session inside the container. The `--login` flag sources the shell profile, and port 8228 is exposed for the GitHub App creation workflow.
@@ -93,6 +93,8 @@ products:
 
 NOTE: The {TSFShortName} installer assumes a fresh cluster. If other {TSFShortName}-managed operators are already installed (such as Red Hat OpenShift Pipelines or {RHTASName}), set `manageSubscription: false` for each pre-installed component to prevent conflicts.
 
+The `tsf-config` ConfigMap in the `tsf` namespace controls which components are installed. Each component has an `enabled` flag and a `manageSubscription` property. Set `manageSubscription` to `false` for any component that is already installed on the cluster.
+
 === Verification
 
 Verify that the ConfigMap was created:
@@ -103,6 +105,13 @@ oc get configmap tsf-config -n tsf
 ----
 
 The output shows the `tsf-config` ConfigMap in the `tsf` namespace.
+
+To view the complete ConfigMap structure:
+
+[source,bash]
+----
+oc get configmap tsf-config -n tsf -o yaml
+----
 
 == Configure the GitHub integration
 
@@ -151,63 +160,33 @@ NOTE: The installer may log an error about failing to open the browser. This is 
 
 == Configure the GitLab integration
 
-If you are using GitLab instead of GitHub, configure the GitLab integration. Create a Project Access Token for each GitLab project that you want to onboard to {TSFShortName}.
+If you are using GitLab instead of GitHub, configure the GitLab integration. The installer creates the required namespace and secret for the `default-tenant` automatically during deployment.
 
 === Prerequisites
 
 * You have started the {TSFShortName} installer container.
 * You are logged in to the {OCPShortName} cluster.
-* You have a GitLab project that you want to onboard.
+* You have prepared the GitLab variables (`GITLAB__HOST`, `GITLAB__GROUP`, `GITLAB__TOKEN`) in your `tsf.env` file.
 
 === Steps
 
-. In your GitLab project, create a Project Access Token:
-.. Navigate to *Settings* > *Access Tokens*.
-.. Enter a name for the token, for example, `tsf-integration`.
-.. Select the *Maintainer* role.
-.. Select the following scopes: `api`, `read_repository`, `write_repository`.
-.. Click *Create project access token*.
-.. Copy the token value.
-
-. Create a Kubernetes secret in the tenant namespace that contains the GitLab credentials:
+. Configure the GitLab integration:
 +
 [source,bash]
 ----
-oc create secret generic gitlab-auth-secret \
-  -n <tenant-namespace> \
-  --from-literal=password=<project-access-token> \
-  --type=kubernetes.io/basic-auth
+tsf integration gitlab \
+  --group="$GITLAB__GROUP" \
+  --host="$GITLAB__HOST" \
+  --token="$GITLAB__TOKEN"
 ----
-+
-Replace `<tenant-namespace>` with your tenant namespace and `<project-access-token>` with the token you copied.
-
-. Label the secret so that {KonfluxName} can discover it:
-+
-[source,bash]
-----
-oc label secret gitlab-auth-secret \
-  -n <tenant-namespace> \
-  appstudio.redhat.com/credentials=scm
-----
-
-. Annotate the secret with the GitLab host:
-+
-[source,bash]
-----
-oc annotate secret gitlab-auth-secret \
-  -n <tenant-namespace> \
-  appstudio.redhat.com/scm.host=gitlab.com
-----
-+
-Replace `gitlab.com` with the hostname of your GitLab instance if you are using a self-hosted instance.
 
 === Verification
 
-Verify that the secret was created:
+Verify that the GitLab integration secret was created:
 
 [source,bash]
 ----
-oc get secret gitlab-auth-secret -n <tenant-namespace>
+oc get secret tsf-gitlab-integration -n tsf
 ----
 
 == Configure the Quay integration
