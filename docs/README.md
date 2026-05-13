@@ -47,7 +47,8 @@ When a new release branch is created (e.g., `release-0.2`):
 
 - The new branch automatically becomes the publishing source.
 - Pushes to older release branches (e.g., `release-0.1`) stop publishing.
-- No configuration or variable updates are needed.
+- No CI or GitHub settings changes are needed.
+- **Update `display_version`** in `docs/antora.yml` on the new release branch to match the release number (e.g., `'0.2'`). This controls the version shown in the toolbar next to "Edit this Page".
 
 ## How publishing works
 
